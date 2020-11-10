@@ -1,0 +1,38 @@
+﻿@inherits DataBindingDemoBase
+@page "/databindingdemo"
+
+<h3>DataBindingDemo Works!</h3>
+
+<div>
+    <b>Name :</b> @Name
+</div>
+
+<div>
+    <b>Name with salutation:</b> @(Gender == "Male" ? $"Mr. {Name}": $"Ms. {Name}")
+</div>
+
+<div>
+    <b>Example of Input Element: </b><input value="@Name" />
+</div>
+
+<hr />
+<h3>Two way data binding example</h3>
+
+<div>
+    <b>Name: </b><input value="@Name" @oninput="@(e => { Name = e.Value.ToString(); })" />
+</div>
+
+<div>
+    <b>Name: </b> <input @bind="Name" />
+</div>
+
+<!-- Example of how two way data binding to be configured with an event -->
+<div>
+    <b>Name: </b> <input @bind="Name" @bind:event="oninput"/>
+</div>
+
+<!--Example of how to bind an attribute of an element using two way data binding and trigger events-->
+
+<div @bind-style="color" @bind-style:event="onchange">
+    <b>My favourite color is </b> <input @bind="color"/>
+</div>

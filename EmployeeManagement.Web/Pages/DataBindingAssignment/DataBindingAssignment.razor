@@ -1,0 +1,20 @@
+﻿@inherits DataBindingAssignmentBase
+@page "/databindingAssignment"
+
+<h3>DataBindingAssignment</h3>
+
+<div>
+    <b>Type your text below: </b>
+</div>
+
+<div>
+    <textarea rows="10" cols="50" @bind="Text" @bind:event="oninput">
+    </textarea>
+</div>
+<div>
+    <p>Total characters typed: @Text.Length</p>
+</div>
+
+
+
+

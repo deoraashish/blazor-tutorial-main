@@ -15,9 +15,25 @@ namespace EmployeeManagement.Web.Pages
 
         public IEnumerable<Employee> Employees { get; set; }
 
+        public bool ShowFooter { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             Employees = (await EmployeeService.GetEmployees()).ToList();
-        }   
+        }
+
+        public int SelectedEmployees { get; set; }
+
+        public void UpdateCount(bool value)
+        {
+            if (value)
+            {
+                this.SelectedEmployees++;
+            }
+            else
+            {
+                this.SelectedEmployees--;
+            }
+        }
     }
 }
