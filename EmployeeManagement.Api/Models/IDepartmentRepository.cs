@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagement.Api.Models
 {
-    interface IDepartmentRepository
+    public interface IDepartmentRepository
     {
         Task<IEnumerable<Department>> GetDepartments();
         Task<Department> GetDepartment(int departmentId);

@@ -23,7 +23,12 @@ namespace EmployeeManagement.Web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddHttpClient<IEmployeeService, EmployeeService>(client => 
+            services.AddHttpClient<IEmployeeService, EmployeeService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44324");
+            });
+
+            services.AddHttpClient<IDepartmentService, DepartmentService>(client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44324");
             });
