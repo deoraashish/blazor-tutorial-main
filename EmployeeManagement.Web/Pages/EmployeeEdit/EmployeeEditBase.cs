@@ -22,13 +22,10 @@ namespace EmployeeManagement.Web.Pages.EmployeeEdit
 
         public List<Department> Departments = new List<Department>();
 
-        public string DepartmentId { get; set; }
-
         protected async override Task OnInitializedAsync()
         {
             Employee = await EmployeeService.GetEmployee(int.Parse(Id));
             Departments = (await DepartmentService.GetDepartments()).ToList();
-            DepartmentId = Employee.DepartmentId.ToString();
         }
     }
 }
