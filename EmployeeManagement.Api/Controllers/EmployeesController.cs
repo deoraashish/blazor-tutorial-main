@@ -78,19 +78,16 @@ namespace EmployeeManagement.Api.Controllers
             }
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<ActionResult<Employee>> UpdateEmployee(int id, Employee employee)
+        [HttpPut()]
+        public async Task<ActionResult<Employee>> UpdateEmployee(Employee employee)
         {
             try
             {
-                if (id != employee.EmployeeId)
-                {
-                    return BadRequest("Employee ID Mismatch");
-                }
-                var emp = await iEmployeeRepository.GetEmployee(id);
+
+                var emp = await iEmployeeRepository.GetEmployee(employee.EmployeeId);
                 if (emp == null)
                 {
-                    return NotFound($"Employee with Id = {id} not found");
+                    return NotFound($"Employee with Id = {employee.EmployeeId} not found");
                 }
                 return await iEmployeeRepository.UpdateEmployee(employee);
             }
@@ -126,16 +123,16 @@ namespace EmployeeManagement.Api.Controllers
             {
                 var result = await iEmployeeRepository.SearchEmployee(name, gender);
 
-                if(result.Any())
+                if (result.Any())
                 {
                     return Ok(result);
                 }
-                else 
+                else
                 {
                     return NotFound();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
