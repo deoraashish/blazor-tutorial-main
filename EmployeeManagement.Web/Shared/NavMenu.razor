@@ -13,6 +13,13 @@
             </NavLink>
         </li>
     </ul>
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/employee" Match="NavLinkMatch.All" @onclick="ClickHandler">
+                <span class="oi oi-arrow-circle-top" aria-hidden="true"></span> Add Employee
+            </NavLink>
+        </li>
+    </ul>
 </div>
 
 @code {
@@ -20,8 +27,15 @@
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
+    @inject NavigationManager navigationManager;
+
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private void ClickHandler()
+    {
+        navigationManager.NavigateTo("employee", true);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EmployeeManagementModels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -13,6 +14,16 @@ namespace EmployeeManagement.Web.Services
         public EmployeeService(HttpClient httpClient)
         {
             this.httpClient = httpClient;
+        }
+
+        public async Task<Employee> AddEmployee(Employee newEmployee)
+        {
+            return await httpClient.PostJsonAsync<Employee>("api/employees", newEmployee);
+        }
+
+        public async Task DeleteEmployee(int id)
+        {
+            await httpClient.DeleteAsync($"api/employees/{id}");
         }
 
         public async Task<Employee> GetEmployee(int id)

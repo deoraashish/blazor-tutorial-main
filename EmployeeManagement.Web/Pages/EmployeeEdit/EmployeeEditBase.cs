@@ -3,6 +3,7 @@ using EmployeeManagement.Web.Models;
 using EmployeeManagement.Web.Services;
 using EmployeeManagementModels;
 using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace EmployeeManagement.Web.Pages.EmployeeEdit
     {
         [Parameter]
         public string Id { get; set; }
+
+        public string FormHeaderText { get; set; }
 
         [Inject]
         public IEmployeeService EmployeeService { get; set; }
@@ -26,7 +29,7 @@ namespace EmployeeManagement.Web.Pages.EmployeeEdit
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        private Employee Employee { get; set; } = new Employee();
+        protected Employee Employee { get; set; } = new Employee();
 
         public EmployeeEditModel EmployeeEditModelObject { get; set; } = new EmployeeEditModel();
 
@@ -34,9 +37,25 @@ namespace EmployeeManagement.Web.Pages.EmployeeEdit
 
         protected async override Task OnInitializedAsync()
         {
-            Employee = await EmployeeService.GetEmployee(int.Parse(Id));
             Departments = (await DepartmentService.GetDepartments()).ToList();
+            int.TryParse(Id, out int employeeid);
 
+            if (employeeid == 0)
+            {
+                Employee = new Employee
+                {
+                    DepartmentId = 2,
+                    DateOfBirth = DateTime.Now,
+                    PhotoPath = "images/nophoto.jpg"
+                };
+
+                FormHeaderText = "Add Employee";
+            }
+            else
+            {
+                FormHeaderText = "Edit Employee";
+                Employee = await EmployeeService.GetEmployee(int.Parse(Id));
+            }
             Imapper.Map(Employee, EmployeeEditModelObject);
 
             //EmployeeEditModelObject.EmployeeId = Employee.EmployeeId;
@@ -52,13 +71,40 @@ namespace EmployeeManagement.Web.Pages.EmployeeEdit
 
         }
 
-        public async Task HandleValidSubmission()
+        public async Task HandleValidSubmit()
         {
             Imapper.Map(EmployeeEditModelObject, Employee);
-            var result = await EmployeeService.UpdateEmployee(Employee);
-            if (result != null)
+
+            try
             {
+                if (Employee.EmployeeId != 0)
+                {
+                    var result = await EmployeeService.UpdateEmployee(Employee);
+                }
+                else
+                {
+                    var result = await EmployeeService.AddEmployee(Employee);
+                }
+
                 NavigationManager.NavigateTo("/");
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        public async Task onDeleteClick()
+        {
+            try
+            {
+                await EmployeeService.DeleteEmployee(Employee.EmployeeId);
+                NavigationManager.NavigateTo("/");
+            }
+            catch (Exception ex)
+            {
+
             }
         }
     }

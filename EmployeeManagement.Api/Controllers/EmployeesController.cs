@@ -62,7 +62,7 @@ namespace EmployeeManagement.Api.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest, "Please provide correct data");
                 }
 
-                var emp = iEmployeeRepository.GetEmployeeByEmail(employee.Email);
+                var emp = await iEmployeeRepository.GetEmployeeByEmail(employee.Email);
 
                 if (emp != null)
                 {

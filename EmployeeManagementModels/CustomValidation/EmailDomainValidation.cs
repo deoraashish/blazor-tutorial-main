@@ -8,14 +8,21 @@ namespace EmployeeManagementModels.CustomValidation
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string[] emailAddressArray = value.ToString().Split('@');
+            if (value != null)
+            {
+                string[] emailAddressArray = value.ToString().Split('@');
 
-            if (emailAddressArray[1].ToUpper() == AllowedDomain.ToUpper())
+                if (emailAddressArray[1].ToUpper() == AllowedDomain.ToUpper())
+                {
+                    return null;
+                }
+
+                return new ValidationResult(ErrorMessage, new[] { validationContext.MemberName });
+            }
+            else
             {
                 return null;
             }
-
-            return new ValidationResult(ErrorMessage, new[] { validationContext.MemberName });
         }
     }
 }
