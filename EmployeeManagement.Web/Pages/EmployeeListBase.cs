@@ -15,7 +15,7 @@ namespace EmployeeManagement.Web.Pages
 
         public IEnumerable<Employee> Employees { get; set; }
 
-        public bool ShowFooter { get; set; }
+        public bool ShowFooter { get; set; } = true;
 
         protected override async Task OnInitializedAsync()
         {
@@ -34,6 +34,11 @@ namespace EmployeeManagement.Web.Pages
             {
                 this.SelectedEmployees--;
             }
+        }
+
+        public async Task DeletionOfEmployeeEventHandler()
+        {
+            Employees = (await EmployeeService.GetEmployees()).ToList();
         }
     }
 }

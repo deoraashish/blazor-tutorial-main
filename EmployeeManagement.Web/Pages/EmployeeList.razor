@@ -14,7 +14,7 @@ else
     <div class="card-deck">
         @foreach (var employee in Employees)
         {
-            <EmployeeCard Employee="employee" ShowFooter="ShowFooter" EmployeeSelected="UpdateCount"></EmployeeCard>
+            <EmployeeCard Employee="employee" ShowFooter="ShowFooter" EmployeeSelected="UpdateCount" DeletetionOfEmployeeEvent="DeletionOfEmployeeEventHandler"></EmployeeCard>
         }
     </div>
 }
